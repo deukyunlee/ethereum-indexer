@@ -1,0 +1,83 @@
+spring:
+  profiles:
+    active: local
+  config:
+    import:
+      - optional:file:config/infura.yml
+  application:
+    name: data_producer
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  datasource:
+    hikari:
+      maximum-pool-size: 4
+    url: jdbc:postgresql://localhost:5432/postgres?serverTimezone=UTC
+    username: admin
+    password: qwer1234
+    driver-class-name: org.postgresql.Driver
+  jackson:
+    time-zone: UTC
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+
+
+logging:
+  file:
+    path: logs
+  level:
+    root: INFO
+    web: INFO
+    '[com.crossangle]': INFO
+  charset:
+    console: UTF-8
+    file: UTF-8
+
+springdoc:
+  webjars:
+    prefix:
+  api-docs:
+    version: OPENAPI_3_0
+    groups:
+      enabled: true
+  swagger-ui:
+    path: /docs
+    tags-sorter: alpha
+    operations-sorter: alpha
+    use-root-path: false
+
+management:
+  endpoint:
+    health:
+      show-details: never
+      enabled: true
+  endpoints:
+    web:
+      base-path: /
+      path-mapping:
+        health: health
+      exposure:
+        include: health
+    enabled-by-default: false
+  health:
+    db:
+      enabled: false
+    diskspace:
+      enabled: false
+    ping:
+      enabled: false
+    redis:
+      enabled: false
+
+swagger:
+  schema:
+    url: http://localhost:8080
+    description: Ethereum Indexer

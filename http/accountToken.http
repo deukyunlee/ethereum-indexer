@@ -1,0 +1,5 @@
+### {get} ETH 보유량
+GET {{apiAddress}}/v1/ethereum/mainnet/accounts/tokens/transactions?account=0x0e423605a719C02078F0E30e97303349bEf7540c&tokenAddress=ETH&date=20241220
+
+### {get} ERC20 보유량
+GET {{apiAddress}}/v1/ethereum/mainnet/accounts/tokens/transactions?account=0xdf5917540206f808Ee07deA6218fDeF0869A97AE&tokenAddress=0x5a3e6A77ba2f983eC0d371ea3B475F8Bc0811AD5&date=20241220

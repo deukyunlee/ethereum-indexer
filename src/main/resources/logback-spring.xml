@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration>
+
+<configuration scan="true" scanPeriod="30 seconds">
+    <import class="ch.qos.logback.core.rolling.RollingFileAppender" />
+    <import class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy" />
+    <import class="ch.qos.logback.classic.AsyncAppender" />
+    <import class="ch.qos.logback.core.ConsoleAppender" />
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+    <springProperty name="logPath" source="logging.file.path" />
+
+    <appender name="rolling_logger" class="RollingFileAppender">
+        <file>${logPath}/deukyunlee-indexer.log</file>
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <rollingPolicy class="SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/deukyunlee-indexer.log.%d{yyyyMMdd}.%i.gz</fileNamePattern>
+            <maxFileSize>1GB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="async_roller" class="AsyncAppender">
+        <appender-ref ref="rolling_logger" />
+        <queueSize>1024</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>true</includeCallerData>
+        <maxFlushTime>10</maxFlushTime>
+        <neverBlock>false</neverBlock>
+    </appender>
+
+    <appender name="std_out" class="ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+    </appender>
+
+    <root>
+        <appender-ref ref="std_out" />
+        <appender-ref ref="async_roller" />
+    </root>
+</configuration>
